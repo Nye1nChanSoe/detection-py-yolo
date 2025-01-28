@@ -1,0 +1,93 @@
+Ultralytics - YOLO v11 object detection model
+
+PyTorch - A deep learning library used by YOLO under the hood
+          to perform neural network operations
+
+OpenCV - A computer vision library used for handling video input
+         displaying frames and drawing bounding boxes
+
+-------------------------------------------------------------------
+
+## Why yolo11n?
+
+Caveats:
+    Evaluated mAP - mean average percision on COCO dataset
+    https://cocodataset.org/#explore
+
+yolov8n -> 3.2 million parameters
+yolov10 -> 2.3 million parameters
+yolo11n -> 2.6 million parameters
+
+yolov8  -> 53.9% precision
+yolov10 -> 54.4% precision
+yolov11 -> 54.7% precision
+
+## Object detection Accuracy and Confidency scores
+Caveats:
+    Tested on https://docs.ultralytics.com/datasets/obb/dota-v2/
+
+YOLOv8  had better performance on larger objects
+YOLOv11 had better performance on smaller objects
+
+
+Extra Links: https://docs.ultralytics.com/compare/yolov8-vs-yolo11/?utm_source=chatgpt.com
+-------------------------------------------------------------------
+
+
+model = YOLO('yolo11n.pt')
+
+The model is ready to analyze frames and detect objects
+based on the classes it knows (80 object classes)
+
+
+OpenCV cv2 python library opens the default webcam (camera 0)
+
+cap = cv2.VideoCapture(0)
+
+
+# Motion capture loop
+
+Camera Feed => Live video stream captured by a camera
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print('Unable read from the webcam')
+        break
+
+
+ret: boolean value to indicate the frame was successfully capture
+     True  -> yes
+     False -> webcam disconnected, end of video etc..
+
+frame: NumPy array representing the captured image
+       Contains the pixel data of the frame
+
+       pixel data => height, width, channels (3-RGB)
+
+
+results = model.predict(frame, conf=0.7)
+
+passes the captured frame for detection and confidence threshold is set to 70%
+
+results: A list of predictions for the current frame
+         Each prediction contains information about detected object
+
+         prediction result => boxes  <list of bounding boxes around detected objects>
+
+        box.xyxy => coordinates of the box (x_min, y_min, x_max, y_max)
+        box.clas => class ID of the detected object (0 for person)
+        box.conf => confidence score of the detection
+
+# example output of results
+# for a frame containing two detected persons
+# it's type is Tensor or NumPy array
+[
+    {
+        "boxes": [
+            {"xyxy": [100, 50, 200, 300], "cls": 0, "conf": 0.85},
+            {"xyxy": [300, 120, 400, 350], "cls": 0, "conf": 0.80}
+        ]
+    }
+]
+
