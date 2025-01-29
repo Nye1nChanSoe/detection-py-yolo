@@ -109,11 +109,6 @@ results: A list of predictions for the current frame
             - save:: is new face
 
 
-DeepFace
-    A Lightweight Face Recognition and Facial Attribute Analysis 
-    (Age, Gender, Emotion and Race) Library for Python
-
-
 
 [CHALLENGES]
     - My python version is 3.13.1
