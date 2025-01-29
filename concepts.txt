@@ -91,3 +91,32 @@ results: A list of predictions for the current frame
     }
 ]
 
+
+
+# Embedded face recognition
+
+    Optimized Approach
+        - Hash + Face embedding
+        - Face embedding: a numerical vector that represents a person's face
+        - Compare embeddings to see if a face is similar enough
+        - Only save a new image if it's truely unique
+
+    Workflow
+        - Extract detected faces from bounding box
+        - Compute the face embeddings using `DeepFace`
+        - Check embeddings 
+            - skip:: is familiar to previously saved faces
+            - save:: is new face
+
+
+DeepFace
+    A Lightweight Face Recognition and Facial Attribute Analysis 
+    (Age, Gender, Emotion and Race) Library for Python
+
+
+
+[CHALLENGES]
+    - My python version is 3.13.1
+    - Major packages like `torch` and `tensorflow` are compatible <Python 3.9–3.12>
+    - I am currently relying on nightly builds
+    - So I have to use it at my own risk

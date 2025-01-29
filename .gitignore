@@ -1,1 +1,4 @@
 /env
+/detected_faces
+/images
+.env

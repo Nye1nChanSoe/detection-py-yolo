@@ -2,7 +2,7 @@ import cv2
 
 def main():
     # Open webcam (default is device 0)
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0, apiPreference=cv2.CAP_AVFOUNDATION)
 
     if not cap.isOpened():
         print("Error: Unable to access the webcam.")
