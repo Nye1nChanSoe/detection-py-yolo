@@ -1,6 +1,5 @@
 import cv2
 import os
-import numpy as np
 import random
 from insightface.app import FaceAnalysis
 from scipy.spatial.distance import cosine
@@ -17,13 +16,12 @@ PITCH_THRESHOLD = 70
 ROLL_THRESHOLD = 70
 CAMERA_DEVICE = 0
 
-# After a person is unseen for MISSING_FRAMES_THRESHOLD frames, remove them from the "current" count
-MISSING_FRAMES_THRESHOLD = 30
+# frame counts before removing a person
+MISSING_FRAMES_THRESHOLD = 15
 
 WIN_TITLE = "Face Recognition"
 OUTPUT_FOLDER = "images"
 
-# Data structures for face tracking
 UNIQUE_FACES = {}   # {person_id: {"embeddings": [...], "last_seen": frame_count}}
 VISIBLE_FACES = {}  # {person_id: last_seen_frame_count}
 ID_COLORS = {}      # {person_id: (B, G, R)}
@@ -53,8 +51,8 @@ def is_face_known(embedding):
     Compare the current face embedding to all stored embeddings in UNIQUE_FACES.
     Return (True, person_id) if known, else (False, None).
     """
-    best_match_id = None
-    best_match_score = -1
+    best_match_id = None    # closest matching pid
+    best_match_score = -1   # stores highest similarity
 
     for pid, data in UNIQUE_FACES.items():
         stored_embeddings = data["embeddings"]
@@ -122,9 +120,9 @@ def get_color_for_id(person_id):
     if person_id not in ID_COLORS:
         # Generate a random BGR color
         ID_COLORS[person_id] = (
-            random.randint(0, 255),
-            random.randint(0, 255),
-            random.randint(0, 255)
+            random.randint(50, 255),
+            random.randint(50, 255),
+            random.randint(50, 255)
         )
     return ID_COLORS[person_id]
 
@@ -149,7 +147,7 @@ def main():
     start_time = time.time()
     person_id = 1
 
-    DETECTION_INTERVAL = 1  # run detection on every frame (1). Increase to skip frames if needed.
+    DETECTION_INTERVAL = 1  # run detection on every frame
 
     while True:
         ret, frame = cap.read()

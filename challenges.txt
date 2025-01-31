@@ -1,0 +1,11 @@
+model detect or predicts far away low quality faces and maked it as similar
+and store in the same multiple embeddings under same person id
+
+improvement: can store embeddings in a file and load them on application load 
+            to memory
+
+
+* Main issue
+    How to detect far away objects correctly
+    How to train the model from video feeds
+    How to tune it to become better
